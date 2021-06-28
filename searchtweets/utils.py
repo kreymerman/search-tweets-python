@@ -186,8 +186,8 @@ def read_config(filename):
     config = configparser.ConfigParser()
 
     if file_type == "yaml":
-        with open(os.path.expanduser(filename)) as f:
-            config_dict = yaml.load(f)
+        with open(os.path.expanduser(filename), encoding="utf-8") as f:
+            config_dict = yaml.safe_load(f)
 
         config_dict = merge_dicts(*[dict(config_dict[s]) for s
                                     in config_dict.keys()])
