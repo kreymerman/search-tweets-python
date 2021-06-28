@@ -137,6 +137,17 @@ def parse_cmd_args():
                            action="store_true",
                            default=False,
                            help="print all info and warning messages")
+
+    argparser.add_argument("--call-api",
+                           dest="call_api",
+                           action="store_true",
+                           default=True,
+                           help="make API calls")
+
+    argparser.add_argument("--no-call-api",
+                           dest="call_api",
+                           action="store_false",
+                           help="disable API calls")
     return argparser
 
 
@@ -198,9 +209,14 @@ def main():
     else:
         stream = rs.stream()
 
-    if config_dict["print_stream"]:
-        for tweet in stream:
-            print(json.dumps(tweet))
+    if config_dict["call_api"]:
+        if config_dict["print_stream"]:
+            for tweet in stream:
+                print(json.dumps(tweet))
+        else:
+            for tweet in stream:
+                # api calls and saving to files takes place inside the generator
+                pass
 
 
 if __name__ == '__main__':
